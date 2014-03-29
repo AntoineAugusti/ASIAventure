@@ -99,7 +99,7 @@ public abstract class Vivant extends Entite implements Executable {
 
 		// Si on a vraiment retiré l'objet de la pièce
 		if (o != null) {
-			this.getObjets().put(o.getNom(), o);
+			this.hmObjets.put(o.getNom(), o);
 		}
 	}
 
@@ -179,7 +179,7 @@ public abstract class Vivant extends Entite implements Executable {
 	 * @return     true si le vivant le possède, false sinon
 	 */
 	public boolean possede(Objet obj) {
-		return this.getObjets().containsKey(obj.getNom());
+		return this.hmObjets.containsKey(obj.getNom());
 	}
 
 	public HashMap <String,Objet> getObjets() {
@@ -192,7 +192,7 @@ public abstract class Vivant extends Entite implements Executable {
 	 * @return          l'objet si celui-ci est dans son inventaire, null sinon
 	 */
 	public Objet getObjet(String nomObjet) {
-		return this.getObjets().get(nomObjet);
+		return this.hmObjets.get(nomObjet);
 	}
 
 	/**
@@ -202,7 +202,7 @@ public abstract class Vivant extends Entite implements Executable {
 	 */
 	public void deposer(Objet obj) throws ObjetNonPossedeParLeVivantException {
 		// L'objet n'était pas présent, on n'a pas pu le déposer
-		if (this.getObjets().remove(obj.getNom()) == null)
+		if (this.hmObjets.remove(obj.getNom()) == null)
 			throw new ObjetNonPossedeParLeVivantException("L'objet " + obj.getNom() + " n'est pas possédé par le vivant " + this.getNom() + " et ne peut donc pas être déposé.");
 		// On a bien pu déposer l'objet
 		else
