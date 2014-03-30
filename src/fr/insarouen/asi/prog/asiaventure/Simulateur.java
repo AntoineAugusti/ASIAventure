@@ -73,26 +73,12 @@ public class Simulateur {
 
 	private void creerPorteSerrure(StreamTokenizer st) throws IOException, NomDEntiteDejaUtiliseDansLeMondeException {
 		// Pour une ligne du style : PorteSerrure "Porte1" "Couloir" "BureauDesNicolas"
-		int i = 1;
-		String nomPorte = "", nomPieceA = "", nomPieceB = "";
-		int stToken = 0;
 
-
-		while (stToken != st.TT_EOL) {
-			switch (i) {
-				case 1:
-					nomPorte = st.sval;
-					break;
-				case 2:
-					nomPieceA = st.sval;
-					break;
-				case 3:
-					nomPieceB = st.sval;
-					break;
-			}
-			i++;
-			st.nextToken();
-		}
+		String nomPorte = st.sval;
+		st.nextToken();
+		String nomPieceA = st.sval;
+		st.nextToken();
+		String nomPieceB = st.sval;
 
 		// On crée la porte verrouillée
 		new Porte(nomPorte, new Serrure(this.monde), this.monde, (Piece)this.monde.getEntite(nomPieceA), (Piece) this.monde.getEntite(nomPieceB));
@@ -100,25 +86,12 @@ public class Simulateur {
 
 	private void creerPorte(StreamTokenizer st) throws IOException, NomDEntiteDejaUtiliseDansLeMondeException {
 		// Pour une ligne du style : PorteSerrure "Porte1" "Couloir" "BureauDesNicolas"
-		int i = 1;
-		String nomPorte = "", nomPieceA = "", nomPieceB = "";
-		int stToken = 0;
-
-		while (stToken != st.TT_EOL) {
-			switch (i) {
-				case 1:
-					nomPorte = st.sval;
-					break;
-				case 2:
-					nomPieceA = st.sval;
-					break;
-				case 3:
-					nomPieceB = st.sval;
-					break;
-			}
-			i++;
-			st.nextToken();
-		}
+		
+		String nomPorte = st.sval;
+		st.nextToken();
+		String nomPieceA = st.sval;
+		st.nextToken();
+		String nomPieceB = st.sval;
 
 		// On crée la porte
 		new Porte(nomPorte, this.monde, (Piece)this.monde.getEntite(nomPieceA), (Piece) this.monde.getEntite(nomPieceB));
