@@ -11,6 +11,7 @@ import fr.insarouen.asi.prog.asiaventure.elements.SuiteElements;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	TestMonde.class,
+	TestSimulateur.class,
 	SuiteElements.class
 })
 public class SuiteASIAventure {}
