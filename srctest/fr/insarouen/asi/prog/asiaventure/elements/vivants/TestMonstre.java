@@ -26,12 +26,12 @@ import static org.hamcrest.core.Is.is;
 
 public class TestMonstre {
 
-	Monstre monstre;
-    Monde monde;
-    Objet objet1, objet2;
-	Piece piece1, piece2;
-    PiedDeBiche pdb;
-    Porte porte;
+	public Monstre monstre;
+    public Monde monde;
+    public Objet objet1, objet2;
+	public Piece piece1, piece2;
+    public PiedDeBiche pdb;
+    public Porte porte;
 
     @Before
     public void avantTest() throws NomDEntiteDejaUtiliseDansLeMondeException {
@@ -53,23 +53,36 @@ public class TestMonstre {
         piece1.deposer(objet1);
         piece2.deposer(objet2);
         pdb = new PiedDeBiche("PDB", monde);
-        monstre = new Monstre("Toto", monde, 2, 0, piece1, pdb);
+        monstre = new Monstre("Toto", monde, 3, 0, piece1, pdb);
     }
 
     @Test
     public void testExecuter() throws ActivationException, PorteFermeException, ObjetAbsentDeLaPieceException, ObjetNonPossedeParLeVivantException, PorteInexistanteDansLaPieceException, ObjetNonDeplacableDeLaPieceException {
-    	assertThat(monstre.possede(pdb), is(true));
-    	assertThat(monstre.possede(objet1), is(false));
-    	assertThat(monstre.possede(objet2), is(false));
-    	assertThat(monstre.getPointVie(), is(2));
-    	assertThat(monstre.getPiece(), is(piece1));
+    	assertThat(this.monstre.possede(pdb), is(true));
+    	assertThat(this.monstre.possede(objet1), is(false));
+    	assertThat(this.monstre.possede(objet2), is(false));
+    	assertThat(this.monstre.getPointVie(), is(3));
+    	assertThat(this.monstre.getPiece(), is(piece1));
 
-    	monstre.executer();
+        this.monstre.executer();
 
-    	assertThat(monstre.getPiece(), is(piece2));
-    	assertThat(monstre.possede(pdb), is(false));
-    	assertThat(monstre.possede(objet1), is(false));
-    	assertThat(monstre.getPointVie(), is(1));
-        assertThat(monstre.possede(objet2), is(true));
+        assertThat(this.monstre.getPiece(), is(piece2));
+        assertThat(this.monstre.possede(pdb), is(false));
+        assertThat(this.monstre.possede(objet1), is(false));
+        assertThat(this.monstre.getPointVie(), is(2));
+        assertThat(this.monstre.possede(objet2), is(true));
+
+        this.monstre.executer();
+
+        assertThat(this.monstre.possede(pdb), is(false));
+        assertThat(this.monstre.possede(objet1), is(true));
+        assertThat(this.monstre.possede(objet2), is(false));
+        assertThat(this.monstre.getPointVie(), is(1));
+        assertThat(this.monstre.getPiece(), is(piece1));
+        
+        this.monstre.executer();
+        
+        assertThat(this.monstre.getPiece(), is(piece2));
+        assertThat(this.monstre.estMort(), is(true));
     }
 }
