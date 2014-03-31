@@ -1,0 +1,30 @@
+#!/bin/bash
+
+## Clean
+cd classes
+rm -rf fr
+cd ../classestest
+rm -rf fr
+cd ..
+
+
+javac -sourcepath ./src -d ./classes ./src/fr/insarouen/asi/prog/asiaventure/*.java
+echo "    |--- asiaventure : .java compilés";
+
+javac -sourcepath ./src -d ./classes ./src/fr/insarouen/asi/prog/asiaventure/elements/*.java
+echo "    |--- elements : .java compilés";
+
+javac -sourcepath ./src -d ./classes ./src/fr/insarouen/asi/prog/asiaventure/elements/objets/*.java
+echo "    |--- objets : .java compilés";
+
+javac -sourcepath ./src -d ./classes ./src/fr/insarouen/asi/prog/asiaventure/elements/structure/*.java
+echo "    |--- structures : .java compilés";
+
+javac -sourcepath ./src -d ./classes ./src/fr/insarouen/asi/prog/asiaventure/elements/vivants/*.java
+echo "    |--- vivants : .java compilés";
+
+javac -sourcepath ./src -d ./classes ./src/fr/insarouen/asi/prog/asiaventure/elements/objets/serrurerie/*.java
+echo "    |--- serrureries : .java compilés";
+
+javac -sourcepath ./src -d ./classes ./src/fr/insarouen/asi/prog/asiaventure/Main.java
+echo "    |--- Main : .java compilés";

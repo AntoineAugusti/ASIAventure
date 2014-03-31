@@ -1,0 +1,26 @@
+#!/bin/bash
+
+## Compilation des tests
+javac -sourcepath ./srctest/ -cp /usr/share/java/junit4-4.11.jar:./classes:/usr/share/java/hamcrest-core.jar:/usr/share/java/hamcrest-library.jar -d ./classestest ./srctest/fr/insarouen/asi/prog/asiaventure/TestMonde.java
+echo "    |--- TestMonde : Compilé";
+
+javac -sourcepath ./srctest/ -cp /usr/share/java/junit4-4.11.jar:./classes:/usr/share/java/hamcrest-core.jar:/usr/share/java/hamcrest-library.jar -d ./classestest ./srctest/fr/insarouen/asi/prog/asiaventure/elements/TestEntite.java
+echo "    |--- TestEntite : Compilé";
+
+javac -sourcepath ./srctest/ -cp /usr/share/java/junit4-4.11.jar:./classes:/usr/share/java/hamcrest-core.jar:/usr/share/java/hamcrest-library.jar -d ./classestest ./srctest/fr/insarouen/asi/prog/asiaventure/elements/structure/TestPiece.java
+echo "    |--- TestPiece : Compilé";
+
+javac -sourcepath ./srctest/ -cp /usr/share/java/junit4-4.11.jar:./classes:/usr/share/java/hamcrest-core.jar:/usr/share/java/hamcrest-library.jar -d ./classestest ./srctest/fr/insarouen/asi/prog/asiaventure/elements/structure/TestPorte.java
+echo "    |--- TestPorte : Compilé";
+
+javac -sourcepath ./srctest/ -cp /usr/share/java/junit4-4.11.jar:./classes:/usr/share/java/hamcrest-core.jar:/usr/share/java/hamcrest-library.jar -d ./classestest ./srctest/fr/insarouen/asi/prog/asiaventure/elements/vivants/TestVivant.java
+echo "    |--- TestVivant : Compilé";
+
+javac -sourcepath ./srctest/ -cp /usr/share/java/junit4-4.11.jar:./classes:/usr/share/java/hamcrest-core.jar:/usr/share/java/hamcrest-library.jar -d ./classestest ./srctest/fr/insarouen/asi/prog/asiaventure/elements/SuiteElements.java
+echo "    |--- SuiteElements : Compilé";
+
+javac -sourcepath ./srctest/ -cp /usr/share/java/junit4-4.11.jar:./classes:/usr/share/java/hamcrest-core.jar:/usr/share/java/hamcrest-library.jar -d ./classestest ./srctest/fr/insarouen/asi/prog/asiaventure/SuiteASIAventure.java
+echo "    |--- SuiteASIAventure : Compilé";
+
+## Lancement de la suite de tests
+java -cp ./classes:./classestest:/usr/share/java/junit4-4.11.jar org.junit.runner.JUnitCore fr.insarouen.asi.prog.asiaventure.SuiteASIAventure
