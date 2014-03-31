@@ -76,18 +76,21 @@ public class Monstre extends Vivant {
 
 			// On prend les objets dans la pièce et on dépose les objets possédés dans la pièce
 			if (!this.estMort()) {
-				HashMap <String,Objet> objetsDuMonstre = this.getObjets();
 
+				HashMap<String, Objet> temp = new HashMap<String, Objet>();
 				for (Objet objet : this.getPiece().getObjets().values()) {
 					try {
 						if (objet.estDeplacable())
-							this.prendre(objet);
+							temp.put(objet.getNom(), this.getPiece().retirer(objet));
 					}
 					catch (ASIAventureException e) {
 						System.out.println(e.getMessage());
 					}
 				}
 
+				// temp contient maintenant tous les objets déplaçables de la pièce (ils viennent d'être enlevés)
+
+				HashMap <String,Objet> objetsDuMonstre = this.getObjets();
 				for (Objet objet : objetsDuMonstre.values()) {
 					try {
 						if (objet.estDeplacable())
@@ -96,7 +99,10 @@ public class Monstre extends Vivant {
 					catch (ASIAventureException e) {
 						System.out.println(e.getMessage());
 					}
-				} 
+				}
+
+				// On rajoute dans l'inventaire du monstre tout ce qui a été retiré de la pièce
+				this.getObjets().putAll(temp);
 			}
 		}
 	}
