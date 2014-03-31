@@ -1,2 +1,4 @@
 classes/fr/*
 classestest/fr/*
+*.sublime-project
+*.sublime-workspace
