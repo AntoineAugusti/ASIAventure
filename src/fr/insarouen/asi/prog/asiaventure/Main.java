@@ -45,5 +45,7 @@ public class Main {
 			}
 
 		} while(reponse != 5);
+
+		System.out.println("Merci d'avoir joué, tu es un beau gosse !");
 	}
 }
