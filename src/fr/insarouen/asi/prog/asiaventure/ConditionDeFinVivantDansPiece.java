@@ -14,7 +14,7 @@ public class ConditionDeFinVivantDansPiece extends ConditionDeFin {
 	}
 
 	public EtatDuJeu verifierCondition() {
-		if (this.vivant.getPiece().equals(this.piece))
+		if (this.piece.contientVivant(this.vivant))
 			return this.getEtatConditionVerifiee();
 		else
 			return EtatDuJeu.ENCOURS;
