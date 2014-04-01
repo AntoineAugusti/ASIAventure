@@ -20,6 +20,10 @@ import fr.insarouen.asi.prog.asiaventure.elements.structure.ObjetNonDeplacableDe
 import fr.insarouen.asi.prog.asiaventure.elements.structure.ObjetAbsentDeLaPieceException;
 import fr.insarouen.asi.prog.asiaventure.elements.vivants.ObjetNonPossedeParLeVivantException;
 import java.util.HashMap;
+import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
+import java.lang.reflect.InvocationTargetException;
 
 public class JoueurHumain extends Vivant {
 	private String ordre;
@@ -88,7 +92,68 @@ public class JoueurHumain extends Vivant {
 		activerActivableAvecObjet(p, o);
 	}
 
-	public void executer() {
+	public void executer() throws Throwable {
+		Method m = this.getMethodeOrdre(this.ordre.split("\\s+"));
+		try {
+			m.invoke((Object) this, (Object[]) this.getParametresOrdre(this.ordre.split("\\s+")));
+		}
+		catch (InvocationTargetException e) {
+			throw e.getCause();
+		}
+		catch (Exception e) {
+			throw new CommandeImpossiblePourLeVivantException("Impossible de lancer cette commande");
+		}
+	}
 
+	/**
+	 * @brief Cherche les paramètres à donner à la méthode pour exécuter un ordre
+	 * 
+	 * @param parametres Le tableau des String qui correspondent à l'ordre
+	 * @return [description]
+	 */
+	private String[] getParametresOrdre(String[] parametres) {
+		// On supprime le 1er élément (qui correspond à l'ordre) et le mot "avec"
+		return this.supprimerElement(this.supprimerElement(parametres, parametres[0]), "avec");
+	}
+
+	/**
+	 * @brief Supprime un élément d'un tableau
+	 * 
+	 * @param entree Le tableau de chaînes
+	 * @param aSupprimer La chaîne à supprimer du tableau
+	 * 
+	 * @return Le tableau
+	 */
+	private static String[] supprimerElement(String[] entree, String aSupprimer) {
+		List <String> resultat = new LinkedList <String>();
+
+		for (String item : entree)
+			if (!aSupprimer.equals(item))
+				resultat.add(item);
+
+		return resultat.toArray(entree);
+	}
+
+	/**
+	 * @brief Cherche la méthode à appeler en fonction de la commande tapée
+	 * 
+	 * @param parametres Le tableau des String qui correspondent à l'ordre
+	 * @return La méthode à appeler
+	 */
+	private Method getMethodeOrdre(String[] parametres) throws Throwable {
+		// Pour mimer un ucfirst
+		String baseNomMethode = parametres[0].substring(0,1).toUpperCase() + parametres[0].substring(1);
+		Class<?> classe = getClass();
+
+		int nombreParametres = parametres.length;
+		if (nombreParametres == 4)
+			nombreParametres--;
+
+		Class[] parametresFormels = new Class[nombreParametres];
+		for (int i=1; i <= nombreParametres; i++) {
+			parametresFormels[i-1] = java.lang.String.class;
+		}
+
+		return classe.getMethod("commande"+baseNomMethode, parametresFormels);
 	}
 }
