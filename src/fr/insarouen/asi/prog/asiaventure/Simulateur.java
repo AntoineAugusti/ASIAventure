@@ -7,6 +7,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Scanner;
+
 
 import fr.insarouen.asi.prog.asiaventure.elements.structure.Piece;
 import fr.insarouen.asi.prog.asiaventure.elements.objets.serrurerie.Serrure;
@@ -14,6 +18,8 @@ import fr.insarouen.asi.prog.asiaventure.elements.objets.serrurerie.Clef;
 import fr.insarouen.asi.prog.asiaventure.elements.structure.Porte;
 import fr.insarouen.asi.prog.asiaventure.elements.vivants.JoueurHumain;
 import fr.insarouen.asi.prog.asiaventure.elements.vivants.Vivant;
+import fr.insarouen.asi.prog.asiaventure.elements.Executable;
+import fr.insarouen.asi.prog.asiaventure.elements.Entite;
 
 public class Simulateur {
 	private Monde monde;
@@ -43,15 +49,38 @@ public class Simulateur {
 	}
 
 	public EtatDuJeu executerUnTour() throws Throwable {
+		HashMap <String, Entite> entites = this.monde.getEntites();
+		Scanner input = new Scanner(System.in);
 
+		for (Iterator <Entite> i = entites.values().iterator(); i.hasNext();) {
+			Entite ent = i.next();
+			if (ent instanceof JoueurHumain) {
+				JoueurHumain joueur = (JoueurHumain) ent;
+				// Afficher la situation
+				System.out.println(joueur);
+				// Demander l'action à faire
+				System.out.println("Que veux-tu faire ?");
+				joueur.setOrdre(input.next());
+			}
+		}
+
+		for (Iterator <Entite> i = entites.values().iterator(); i.hasNext();) {
+			Entite ent = i.next();
+			if (ent instanceof Executable) {
+				Executable executable = (Executable) ent;
+				executable.executer();
+			}
+		}
+
+		return EtatDuJeu.ENCOURS;
 	}
 
 	public EtatDuJeu executerNbTours(int n) throws Throwable {
-
+		return EtatDuJeu.ENCOURS;
 	}
 
 	public EtatDuJeu executerJusquALaFin() throws Throwable {
-
+		return EtatDuJeu.ENCOURS;
 	}
 
 	public void stopperJeu() {

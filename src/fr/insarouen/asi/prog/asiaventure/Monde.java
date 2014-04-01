@@ -41,6 +41,10 @@ public class Monde implements Serializable {
 		return this.hmEntite.get(nom);
 	}
 
+	public HashMap <String, Entite> getEntites() {
+		return this.hmEntite;
+	}
+
 	public String toString() {
 		StringBuilder chaineBuilder = new StringBuilder("Monde : "+this.nom+" \n");
 
