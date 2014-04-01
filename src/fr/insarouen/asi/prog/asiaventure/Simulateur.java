@@ -22,11 +22,19 @@ import fr.insarouen.asi.prog.asiaventure.elements.Executable;
 import fr.insarouen.asi.prog.asiaventure.elements.Entite;
 
 public class Simulateur {
-	private Monde monde;
+	private Monde monde = null;
 	private int dureeDuJeu;
 	private int tempsPourPrevenirLaFinDuJeu;
-	private ArrayList<ConditionDeFin> conditionsDeFin;
+	private ArrayList<ConditionDeFin> conditionsDeFin = new ArrayList<ConditionDeFin>();
 
+	/**
+	 * @brief Crée un simulateur
+	 * 
+	 * @param monde Le monde dans lequel on veut jouer
+	 * @param dureeDuJeu La durée du jeu
+	 * @param tempsPourPrevenirLaFinDuJeu Le temps auquel on limite le jeu
+	 * @param conditions Les conditions de fin du jeu
+	 */
 	public Simulateur(Monde monde, int dureeDuJeu, int tempsPourPrevenirLaFinDuJeu, ConditionDeFin... conditions) {
 		this.monde = monde;
 		this.dureeDuJeu = dureeDuJeu;
@@ -36,22 +44,43 @@ public class Simulateur {
 		}
 	}
 
+	/**
+	 * @brief Charge une partie depuis une dernière sauvegarde
+	 * 
+	 * @param ois L'OIS à charger
+	 */
 	public Simulateur(ObjectInputStream ois) throws IOException, ClassNotFoundException {
 		this.monde = (Monde) ois.readObject();
 	}
 
+	/**
+	 * @brief Ajoute plusieurs conditions de fin
+	 * 
+	 * @param conditions Les conditions de fin
+	 */
 	public void ajouterConditionsDeFin(Collection<ConditionDeFin> conditions) {
 		this.conditionsDeFin.addAll(conditions);
 	}
 
+	/**
+	 * @brief Ajoute une condition de fin
+	 * 
+	 * @param condition La condition de fin
+	 */
 	public void ajouterConditionDeFin(ConditionDeFin condition) {
 		this.conditionsDeFin.add(condition);
 	}
 
+	/**
+	 * @brief Joue un tour
+	 * @details Demande aux joueurs humains ce qu'ils veulent faire puis joue toutes les personnes qui peuvent
+	 * @return L'état du jeu après le tour de jeu
+	 */
 	public EtatDuJeu executerUnTour() throws Throwable {
 		HashMap <String, Entite> entites = this.monde.getEntites();
 		Scanner input = new Scanner(System.in);
 
+		// On demande à tous les joueurs humains ce qu'ils veulent faire 
 		for (Iterator <Entite> i = entites.values().iterator(); i.hasNext();) {
 			Entite ent = i.next();
 			if (ent instanceof JoueurHumain) {
@@ -59,11 +88,12 @@ public class Simulateur {
 				// Afficher la situation
 				System.out.println(joueur);
 				// Demander l'action à faire
-				System.out.println("Que veux-tu faire ?");
+				System.out.println("Que veux-tu faire " +joueur.getNom()+ " ?");
 				joueur.setOrdre(input.next());
 			}
 		}
 
+		// On "exécute" tous les exécutables 
 		for (Iterator <Entite> i = entites.values().iterator(); i.hasNext();) {
 			Entite ent = i.next();
 			if (ent instanceof Executable) {
@@ -72,15 +102,46 @@ public class Simulateur {
 			}
 		}
 
+		// On vérifie les conditions de fin. Si une condition est vérifie, on la retourne. Si non on dit que le jeu est "en cours"
+		for (Iterator <ConditionDeFin> i = this.conditionsDeFin.iterator(); i.hasNext();) {
+			ConditionDeFin condition = i.next();
+			if (condition.verifierCondition() != EtatDuJeu.ENCOURS)
+				return condition.verifierCondition();
+		}
+
 		return EtatDuJeu.ENCOURS;
 	}
 
+	/**
+	 * @brief Joue pendant un nombre de tours donné
+	 * 
+	 * @param n Le nombre de tours que l'on veut jouer
+	 * @return L'état du jeu en fin de partie
+	 */
 	public EtatDuJeu executerNbTours(int n) throws Throwable {
+		EtatDuJeu etat;
+
+		for (int i = 1; i <= n; i++) {
+			etat = this.executerUnTour();
+			if (etat != EtatDuJeu.ENCOURS)
+				return etat;
+		}
+
 		return EtatDuJeu.ENCOURS;
 	}
 
+	/**
+	 * @brief Joue jusqu'à la partie soit gagnée ou perdue
+	 * @return L'état du jeu en fin de partie
+	 */
 	public EtatDuJeu executerJusquALaFin() throws Throwable {
-		return EtatDuJeu.ENCOURS;
+		EtatDuJeu etat;
+
+		do {
+			etat = this.executerUnTour();
+		} while (etat == EtatDuJeu.ENCOURS);
+
+		return etat;
 	}
 
 	public void stopperJeu() {
@@ -128,6 +189,11 @@ public class Simulateur {
 		}
 	}
 
+	/**
+	 * @brief Enregistre une partie
+	 * 
+	 * @param oos L'OOS de sortie
+	 */
 	public void enregistrer(ObjectOutputStream oos) throws IOException {
 		oos.writeObject(this.monde);
 		oos.writeObject(this.conditionsDeFin);
@@ -151,7 +217,8 @@ public class Simulateur {
 		st.nextToken();
 		String nomPiece = st.sval;
 
-		this.ajouterConditionDeFin(new ConditionDeFinVivantDansPiece(EtatDuJeu.valueOf(condition), (Vivant)this.monde.getEntite(nomVivant), (Piece)this.monde.getEntite(nomPiece)));
+		ConditionDeFinVivantDansPiece conditionFin = new ConditionDeFinVivantDansPiece(EtatDuJeu.valueOf(condition), (Vivant)this.monde.getEntite(nomVivant), (Piece)this.monde.getEntite(nomPiece));
+		this.ajouterConditionDeFin(conditionFin);
 	}
 
 	private void creerPorteSerrure(StreamTokenizer st) throws IOException, NomDEntiteDejaUtiliseDansLeMondeException {

@@ -25,16 +25,23 @@ public class Main {
 			reponse = input.nextInt();
 
 			if (reponse >= 2 && reponse <= 4)
-				System.out.println("Quel nom de fichier ?\n");
+				System.out.println("Quel nom de fichier ?");
 
 			switch (reponse) {
+				case 1:
+					simulateur.executerJusquALaFin();
+					break;
 				case 2: 
 					reader = new FileReader(input.next());
 					simulateur = new Simulateur(reader);
 					break;
 				case 3:
-					FileOutputStream fos = new FileOutputStream(input.next());
-					simulateur.enregistrer(new ObjectOutputStream(fos));
+					if (simulateur != null) {
+						FileOutputStream fos = new FileOutputStream(input.next());
+						simulateur.enregistrer(new ObjectOutputStream(fos));
+					}
+					else
+						System.out.println("Aucun monde n'a encore été créé");
 					break;
 				case 4:
 					FileInputStream fis = new FileInputStream(input.next());
