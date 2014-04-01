@@ -3,8 +3,9 @@ package fr.insarouen.asi.prog.asiaventure.elements;
 
 import fr.insarouen.asi.prog.asiaventure.Monde;
 import fr.insarouen.asi.prog.asiaventure.NomDEntiteDejaUtiliseDansLeMondeException;
+import java.io.Serializable;
 
-public abstract class Entite {
+public abstract class Entite implements Serializable {
 	public static final int MAXIMUMNOMALEATOIRE = 200;
 	private Monde monde;
 	private String nom;

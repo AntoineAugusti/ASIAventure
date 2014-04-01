@@ -5,8 +5,9 @@ import fr.insarouen.asi.prog.asiaventure.elements.Entite;
 import java.util.HashMap;
 import java.util.Collection;
 import java.util.Iterator;
+import java.io.Serializable;
 
-public class Monde {
+public class Monde implements Serializable {
 	private String nom;
 	private HashMap <String, Entite> hmEntite = new HashMap <String, Entite> ();
 
