@@ -24,6 +24,8 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.Arrays;
 
 public class JoueurHumain extends Vivant {
 	private String ordre;
@@ -50,7 +52,7 @@ public class JoueurHumain extends Vivant {
 	 * @brief Prendre un objet
 	 * @param nomObjet Le nom de l'objet en question
 	 */
-	void commandePrendre(String nomObjet) throws ObjetAbsentDeLaPieceException, ObjetNonDeplacableDeLaPieceException {
+	public void commandePrendre(String nomObjet) throws ObjetAbsentDeLaPieceException, ObjetNonDeplacableDeLaPieceException {
 		prendre(nomObjet);
 	}
 
@@ -58,7 +60,7 @@ public class JoueurHumain extends Vivant {
 	 * @brief Poser un objet
 	 * @param nomObjet Le nom de l'objet en question
 	 */
-	void commandePoser(String nomObjet) throws ObjetNonPossedeParLeVivantException {
+	public void commandePoser(String nomObjet) throws ObjetNonPossedeParLeVivantException {
 		deposer(nomObjet);
 	}
 
@@ -66,7 +68,7 @@ public class JoueurHumain extends Vivant {
 	 * @brief Franchit une porte
 	 * @param nomPorte Le nom de la porte en question
 	 */
-	void commandeFranchir(String nomPorte) throws PorteFermeException, PorteInexistanteDansLaPieceException {
+	public void commandeFranchir(String nomPorte) throws PorteFermeException, PorteInexistanteDansLaPieceException {
 		franchir(nomPorte);
 	}
 
@@ -74,7 +76,7 @@ public class JoueurHumain extends Vivant {
 	 * @brief Ouvre une porte
 	 * @param nomPorte Le nom de la porte en question
 	 */
-	void commandeOuvrirPorte(String nomPorte) throws ActivationException {
+	public void commandeOuvrirPorte(String nomPorte) throws ActivationException {
 		Porte p = this.getPiece().getPorte(nomPorte);
 
 		activerActivable(p);
@@ -85,7 +87,7 @@ public class JoueurHumain extends Vivant {
 	 * @param nomPorte Le nom de la porte en question
 	 * @param nomObjet Le nom de l'objet en question
 	 */
-	void commandeOuvrirPorte(String nomPorte, String nomObjet) throws ActivationException {
+	public void commandeOuvrirPorte(String nomPorte, String nomObjet) throws ActivationException {
 		Porte p = this.getPiece().getPorte(nomPorte);
 		Objet o = this.getObjet(nomObjet);
 
@@ -95,7 +97,7 @@ public class JoueurHumain extends Vivant {
 	public void executer() throws Throwable {
 		Method m = this.getMethodeOrdre(this.ordre.split("\\s+"));
 		try {
-			m.invoke((Object) this, (Object[]) this.getParametresOrdre(this.ordre.split("\\s+")));
+			m.invoke(this, (Object[]) this.getParametresOrdre(this.ordre.split("\\s+")));
 		}
 		catch (InvocationTargetException e) {
 			throw e.getCause();
@@ -112,8 +114,17 @@ public class JoueurHumain extends Vivant {
 	 * @return [description]
 	 */
 	private String[] getParametresOrdre(String[] parametres) {
-		// On supprime le 1er élément (qui correspond à l'ordre) et le mot "avec"
-		return this.supprimerElement(this.supprimerElement(parametres, parametres[0]), "avec");
+		String[] resultat = null;
+		if (parametres.length > 2) {
+			resultat = new String[2];
+			resultat[0] = parametres[1];
+			resultat[1] = parametres[3];
+		}
+		else {
+			resultat = new String[1];
+			resultat[0] = parametres[1];
+		}
+		return resultat;
 	}
 
 	/**
@@ -143,17 +154,54 @@ public class JoueurHumain extends Vivant {
 	private Method getMethodeOrdre(String[] parametres) throws Throwable {
 		// Pour mimer un ucfirst
 		String baseNomMethode = parametres[0].substring(0,1).toUpperCase() + parametres[0].substring(1);
-		Class<?> classe = getClass();
 
-		int nombreParametres = parametres.length;
-		if (nombreParametres == 4)
-			nombreParametres--;
+		// Nom des classes pour déterminer la signature de la méthode
+		String[] params = this.getParametresOrdre(parametres);
+		Class[] parametresFormels = new Class[params.length];
 
-		Class[] parametresFormels = new Class[nombreParametres];
-		for (int i=1; i <= nombreParametres; i++) {
-			parametresFormels[i-1] = java.lang.String.class;
+		for (int i=0; i<params.length; i++) {
+			parametresFormels[i] = params[i].getClass();
 		}
 
-		return classe.getMethod("commande"+baseNomMethode, parametresFormels);
+		return this.getClass().getMethod("commande"+baseNomMethode, parametresFormels);
+	}
+
+	public String toString() {
+		StringBuilder chaineBuilder = new StringBuilder("*** JoueurHumain : " + this.getNom() + "; PDV : "+ this.getPointVie() + "; Pièce : " + this.getPiece().getNom().toString() + ".\n");
+		
+		// Objets dans la pièce
+		if (this.getPiece().getObjets().values().size() >= 1) {
+			chaineBuilder.append("** Objets dans la pièce\n");
+			// Itération sur chaque entité
+			for (Iterator <Objet> i = this.getPiece().getObjets().values().iterator(); i.hasNext();) {
+				Objet o = i.next();
+				chaineBuilder.append(o.getNom() + ";");
+			}
+			chaineBuilder.append("\n");
+		}
+
+		// Inventaire
+		if (this.getObjets().values().size() >= 1) {
+			chaineBuilder.append("** Objets dans l'inventaire\n");
+			// Itération sur chaque entité
+			for (Iterator <Objet> i = this.getObjets().values().iterator(); i.hasNext();) {
+				Objet o = i.next();
+				chaineBuilder.append(o.getNom() + " ; ");
+			}
+			chaineBuilder.append("\n");
+		}
+
+		// Portes dans la pièce
+		if (this.getPiece().getPortes().values().size() >= 1) {
+			chaineBuilder.append("** Portes\n");
+			// Itération sur chaque entité
+			for (Iterator <Porte> i = this.getPiece().getPortes().values().iterator(); i.hasNext();) {
+				Porte p = i.next();
+				chaineBuilder.append(p.toString());
+			}
+			chaineBuilder.append("\n");
+		}
+
+		return chaineBuilder.toString();
 	}
 }

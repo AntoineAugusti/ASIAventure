@@ -89,7 +89,7 @@ public class Simulateur {
 				System.out.println(joueur);
 				// Demander l'action à faire
 				System.out.println("Que veux-tu faire " +joueur.getNom()+ " ?");
-				joueur.setOrdre(input.next());
+				joueur.setOrdre(input.nextLine());
 			}
 		}
 

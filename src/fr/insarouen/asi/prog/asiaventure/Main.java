@@ -15,6 +15,7 @@ public class Main {
 		int reponse = 0;
 		FileReader reader;
 		Simulateur simulateur = null;
+		EtatDuJeu etat;
 
 		do {
 			System.out.println("--- Menu ---");
@@ -32,7 +33,11 @@ public class Main {
 			switch (reponse) {
 				// Jouer
 				case 1:
-					simulateur.executerJusquALaFin();
+					etat = simulateur.executerJusquALaFin();
+					if (etat == EtatDuJeu.SUCCES)
+						System.out.println("Bravo beau gosse, tu as gagné !");
+					else 
+						System.out.println("Tu as perdu. Tu peux te suicider.");
 					break;
 				
 				// Chargement d'un fichier de description
