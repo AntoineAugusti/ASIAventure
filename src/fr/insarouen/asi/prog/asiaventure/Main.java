@@ -18,11 +18,11 @@ public class Main {
 
 		do {
 			System.out.println("--- Menu ---");
-			System.out.println("1/ jouer");
-			System.out.println("2/ charger un fichier de description");
-			System.out.println("3/ sauver la partie actuelle");
-			System.out.println("4/ charger une partie");
-			System.out.println("5/ quitter");
+			System.out.println("1/ Jouer");
+			System.out.println("2/ Charger un fichier de description");
+			System.out.println("3/ Sauver la partie actuelle");
+			System.out.println("4/ Charger une partie");
+			System.out.println("5/ Quitter");
 
 			reponse = input.nextInt();
 
