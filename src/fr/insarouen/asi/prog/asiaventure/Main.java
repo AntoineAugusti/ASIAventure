@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Main {
 	public static void main(String[] args) throws Throwable {
@@ -28,24 +30,59 @@ public class Main {
 				System.out.println("Quel nom de fichier ?");
 
 			switch (reponse) {
+				// Jouer
 				case 1:
 					simulateur.executerJusquALaFin();
 					break;
+				
+				// Chargement d'un fichier de description
 				case 2: 
-					reader = new FileReader(input.next());
-					simulateur = new Simulateur(reader);
+						try {
+							reader = new FileReader(input.next());
+							simulateur = new Simulateur(reader);
+						}
+						catch (FileNotFoundException e) {
+							System.out.println("Ce fichier de chargement n'existe pas.");
+						}
+						catch (IOException e) {
+							System.out.println("Erreur de lecture durant le chargement");
+						}
 					break;
+				
+				// Sauvegarde de la partie actuelle
 				case 3:
 					if (simulateur != null) {
-						FileOutputStream fos = new FileOutputStream(input.next());
-						simulateur.enregistrer(new ObjectOutputStream(fos));
+						try {
+							FileOutputStream fos = new FileOutputStream(input.next());
+							simulateur.enregistrer(new ObjectOutputStream(fos));
+						}
+						catch (FileNotFoundException e) {
+							System.out.println("Ce fichier de chargement n'existe pas.");
+						}
+						catch (IOException e) {
+							System.out.println("Erreur de lecture durant le chargement");
+						}
 					}
 					else
 						System.out.println("Aucun monde n'a encore été créé");
 					break;
+				
+				// Chargement d'une partie
 				case 4:
-					FileInputStream fis = new FileInputStream(input.next());
-					simulateur = new Simulateur(new ObjectInputStream(fis));
+					try {
+						ObjectInputStream ois = new ObjectInputStream(new FileInputStream(input.next()));
+						simulateur = new Simulateur(ois);
+						System.out.println("La sauvergarde a été chargée avec succès.");
+					}
+					catch (FileNotFoundException e) {
+						System.out.println("Ce fichier de sauvegarde n'existe pas.");
+					}
+					catch (IOException e) {
+						System.out.println("Erreur de lecture durant le chargement");
+					}
+					catch (ClassNotFoundException e) {
+						System.out.println("Le fichier n'est pas valide");
+					}
 					break;
 				default:
 					reponse = 5;
