@@ -58,6 +58,6 @@ public class TestSimulateur {
 
 	@Test
 	public void testFichierChargement() throws Throwable {
-		Simulateur sim = new Simulateur(new FileReader("srctest/fr/insarouen/asi/prog/asiaventure/chargement.txt"));
+		Simulateur sim = new Simulateur(new FileReader("fichiersJeu/chargement.txt"));
 	}
 }
