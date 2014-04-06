@@ -16,6 +16,7 @@ public class Main {
 		FileReader reader;
 		Simulateur simulateur = null;
 		EtatDuJeu etat;
+		String continuerJeu = "O";
 
 		do {
 			System.out.println("--- Menu ---");
@@ -33,11 +34,23 @@ public class Main {
 			switch (reponse) {
 				// Jouer
 				case 1:
-					etat = simulateur.executerJusquALaFin();
-					if (etat == EtatDuJeu.SUCCES)
-						System.out.println("Bravo beau gosse, tu as gagné !");
-					else 
-						System.out.println("Tu as perdu. Tu peux te suicider.");
+					if (simulateur != null) {
+						do {
+							etat = simulateur.executerUnTour();
+							if (etat == EtatDuJeu.SUCCES)
+								System.out.println("Bravo beau gosse, tu as gagné !");
+							else if (etat == EtatDuJeu.ECHEC)
+								System.out.println("Tu as perdu. Tu peux te suicider.");
+							else {
+								System.out.println("Continuer à jouer ? (O/N)");
+								continuerJeu = input.next().toUpperCase();
+							}
+
+						} while (continuerJeu.equals("O") && etat == EtatDuJeu.ENCOURS);
+					}
+					else
+						System.out.println("Faudrait peut-être charger le jeu avant !");
+
 					break;
 				
 				// Chargement d'un fichier de description
@@ -69,7 +82,7 @@ public class Main {
 						}
 					}
 					else
-						System.out.println("Aucun monde n'a encore été créé");
+						System.out.println("Aucun monde n'a encore été créé. Tu ne peux rien sauvegarder !");
 					break;
 				
 				// Chargement d'une partie

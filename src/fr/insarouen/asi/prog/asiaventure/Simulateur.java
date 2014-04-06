@@ -23,8 +23,8 @@ import fr.insarouen.asi.prog.asiaventure.elements.Entite;
 
 public class Simulateur {
 	private Monde monde = null;
-	private int dureeDuJeu;
-	private int tempsPourPrevenirLaFinDuJeu;
+	private int dureeDuJeu = 0;
+	private int tempsPourPrevenirLaFinDuJeu = 0;
 	private ArrayList<ConditionDeFin> conditionsDeFin = new ArrayList<ConditionDeFin>();
 
 	/**
@@ -49,8 +49,14 @@ public class Simulateur {
 	 * 
 	 * @param ois L'OIS à charger
 	 */
+	@SuppressWarnings("unchecked")
 	public Simulateur(ObjectInputStream ois) throws IOException, ClassNotFoundException {
 		this.monde = (Monde) ois.readObject();
+		this.dureeDuJeu = ois.readInt();
+		this.tempsPourPrevenirLaFinDuJeu = ois.readInt();
+		this.conditionsDeFin = (ArrayList<ConditionDeFin>) ois.readObject();
+
+		ois.close();
 	}
 
 	/**
@@ -196,7 +202,11 @@ public class Simulateur {
 	 */
 	public void enregistrer(ObjectOutputStream oos) throws IOException {
 		oos.writeObject(this.monde);
+		oos.writeInt(this.dureeDuJeu);
+		oos.writeInt(this.tempsPourPrevenirLaFinDuJeu);
 		oos.writeObject(this.conditionsDeFin);
+
+		oos.close();
 	}
 
 	private void creerMonde(StreamTokenizer st) throws IOException {
