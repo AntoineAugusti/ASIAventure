@@ -48,6 +48,7 @@ Depuis le menu du jeu :
 
 ### Chargement
 Depuis le menu du jeu :
+
 1. Choisir le choix `4`
 2. Indiquer l'emplacement de la sauvegarde, préalablement enregistrée. Par exemple `fichiersJeu/sauvegarde.txt`
 3. Jouer au jeu, choix `1`
