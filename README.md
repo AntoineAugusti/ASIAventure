@@ -21,11 +21,11 @@ Pour "jouer" au jeu :
 
 Cette commande affiche le menu principal. Il est nécessaire de **charger une partie** avant de jouer. La manière la plus simple de faire ceci est de charger le fichier de description se trouvant à l'emplacement `fichiersJeu/chargement.txt`. Ce fichier indique quels éléments seront créés dans le monde où doit se dérouler le jeu. La marche complète à suivre :
 
-	1. Compilation du code source : `make`
-	2. Lancement du jeu : `make jouer`
-	3. Chargement d'un fichier de description : `2`
-	4. Indication de l'emplacement du fichier : `fichiersJeu/chargement.txt`
-	5. Démarrage du jeu : `1`
+1. Compilation du code source : `make`
+2. Lancement du jeu : `make jouer`
+3. Chargement d'un fichier de description : `2`
+4. Indication de l'emplacement du fichier : `fichiersJeu/chargement.txt`
+5. Démarrage du jeu : `1`
 
 ### Commandes disponibles dans le jeu
 Le jeu étant assez simple, les commandes disponibles dans le jeu sont limitées :
