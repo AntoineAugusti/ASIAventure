@@ -1,5 +1,5 @@
 # ASIAventure ?
-ASIAventure est un RPG en console, réalisé en Java à l'INSA de Rouen pour le cour de programmation avancée de la première année du cycle ingénieur "Architecture des Systèmes d'Information". Ce jeu a un objectif **pédagogique** et a pour but de comprendre et d'appliquer les mécanismes avancés de la programmation orientée objet. Certaines parties de ce jeu ont été programmées mais ne sont pas présentées lorsque l'on "joue" au jeu.
+ASIAventure est un RPG en console, réalisé en Java à l'INSA de Rouen pour le cours de programmation avancée de la première année du cycle ingénieur "Architecture des Systèmes d'Information". Ce jeu a un objectif **pédagogique** et a pour but de comprendre et d'appliquer les mécanismes avancés de la programmation orientée objet. Certaines parties de ce jeu ont été programmées mais ne sont pas présentées lorsque l'on "joue" au jeu.
 
 ## Dépendances
 Pour fonctionner correctement, les fichiers suivants doivent se trouver aux localisations indiquées :
@@ -32,6 +32,22 @@ Le jeu étant assez simple, les commandes disponibles dans le jeu sont limitées
 
 - Prendre un objet se trouvant dans une pièce : `prendre %nomObjet%`
 - Poser un objet se trouvant dans l'inventaire du personnage : `poser %nomObjet%`
-- Ouvrir une porte fermée : `ouvrirPorte %nomPorte`
+- Ouvrir une porte fermée : `ouvrirPorte %nomPorte%`
 - Ouvrir une porte à l'aide d'un objet : `ouvrirPorte %nomPorte% avec %nomObjet%`
 - Franchir une porte : `franchir %nomPorte%`
+
+## Sauvegarde et chargement d'une partie
+Il est possible d'enregistrer l'avancement actuel dans le jeu lorsqu'on souhaite interrompre sa partie. Logiquement, il est possible de charger sa sauvegarde et de reprendre à l'avancement sauvegardé.
+
+### Sauvegarde
+Depuis le menu du jeu :
+
+1. Choisir le choix `3`
+2. Indiquer l'emplacement de la sauvegarde. Il est conseillé d'enregistrer cette sauvegarde dans le dossier `fichiersJeu`. Par exemple `fichiersJeu/sauvegarde.txt`
+3. Quitter le jeu, choix `5`
+
+### Chargement
+Depuis le menu du jeu :
+1. Choisir le choix `4`
+2. Indiquer l'emplacement de la sauvegarde, préalablement enregistrée. Par exemple `fichiersJeu/sauvegarde.txt`
+3. Jouer au jeu, choix `1`
