@@ -2,10 +2,13 @@
 package fr.insarouen.asi.prog.asiaventure;
 
 import fr.insarouen.asi.prog.asiaventure.elements.Entite;
+import fr.insarouen.asi.prog.asiaventure.elements.Executable;
 import java.util.HashMap;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.ArrayList;
 import java.io.Serializable;
+
 
 public class Monde implements Serializable {
 	private String nom;
@@ -43,6 +46,23 @@ public class Monde implements Serializable {
 
 	public HashMap <String, Entite> getEntites() {
 		return this.hmEntite;
+	}
+
+	/**
+	 * @brief Retourne tous les exécutables dans le monde
+	 * @return Une collection d'exécutables
+	 */
+	public java.util.Collection<Executable> getExecutables() {
+		ArrayList <Executable> al = new ArrayList<Executable>();
+
+		for (Iterator <Entite> i = this.getEntites().values().iterator(); i.hasNext();) {
+			Entite ent = i.next();
+			if (ent instanceof Executable) {
+				al.add((Executable) ent);
+			}
+		}
+
+		return al;
 	}
 
 	public String toString() {

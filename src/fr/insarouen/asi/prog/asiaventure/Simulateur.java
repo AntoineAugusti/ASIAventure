@@ -100,12 +100,8 @@ public class Simulateur {
 		}
 
 		// On "exécute" tous les exécutables 
-		for (Iterator <Entite> i = entites.values().iterator(); i.hasNext();) {
-			Entite ent = i.next();
-			if (ent instanceof Executable) {
-				Executable executable = (Executable) ent;
-				executable.executer();
-			}
+		for (Executable ex : this.monde.getExecutables()) {
+				ex.executer();
 		}
 
 		// On vérifie les conditions de fin. Si une condition est vérifie, on la retourne. Si non on dit que le jeu est "en cours"
