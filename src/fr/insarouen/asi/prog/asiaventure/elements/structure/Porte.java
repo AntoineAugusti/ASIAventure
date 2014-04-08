@@ -48,6 +48,8 @@ public class Porte extends ElementStructurel implements Activable {
 		super(nom, m);
 		this.etat = Etat.VERROUILLE;
 		this.serrure = s;
+		this.pieceA = pieceA;
+		this.pieceB = pieceB;
 		pieceA.addPorte(this);
 		pieceB.addPorte(this);
 	}

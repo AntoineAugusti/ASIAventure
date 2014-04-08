@@ -115,6 +115,7 @@ public class JoueurHumain extends Vivant {
 	 */
 	private String[] getParametresOrdre(String[] parametres) {
 		String[] resultat = null;
+		
 		if (parametres.length > 2) {
 			resultat = new String[2];
 			resultat[0] = parametres[1];
@@ -124,6 +125,7 @@ public class JoueurHumain extends Vivant {
 			resultat = new String[1];
 			resultat[0] = parametres[1];
 		}
+
 		return resultat;
 	}
 
