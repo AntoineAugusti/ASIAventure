@@ -93,6 +93,7 @@ public class Main {
 			try {
 				FileOutputStream fos = new FileOutputStream(Main.input.next());
 				Main.simulateur.enregistrer(new ObjectOutputStream(fos));
+				fos.close();
 			}
 			catch (FileNotFoundException e) {
 				System.out.println("Ce fichier de chargement n'existe pas.");
@@ -109,6 +110,8 @@ public class Main {
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Main.input.next()));
 			Main.simulateur = new Simulateur(ois);
+			ois.close();
+			
 			System.out.println("La sauvergarde a été chargée avec succès.");
 		}
 		catch (FileNotFoundException e) {

@@ -55,8 +55,6 @@ public class Simulateur {
 		this.dureeDuJeu = ois.readInt();
 		this.tempsPourPrevenirLaFinDuJeu = ois.readInt();
 		this.conditionsDeFin = (ArrayList<ConditionDeFin>) ois.readObject();
-
-		ois.close();
 	}
 
 	/**
@@ -201,8 +199,6 @@ public class Simulateur {
 		oos.writeInt(this.dureeDuJeu);
 		oos.writeInt(this.tempsPourPrevenirLaFinDuJeu);
 		oos.writeObject(this.conditionsDeFin);
-
-		oos.close();
 	}
 
 	private void creerMonde(StreamTokenizer st) throws IOException {
