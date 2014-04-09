@@ -101,6 +101,12 @@ public class TestSerrure {
 	}
 
 	@Test
+	public void testPieceAutreCote() {
+		assertThat(this.porteVerrouillee.getPieceAutreCote(this.pieceA).equals(pieceB), is(true));
+		assertThat(this.porteVerrouillee.getPieceAutreCote(this.pieceB).equals(pieceA), is(true));
+	}
+
+	@Test
 	public void testPorteVerrouilleActivable() {
 		assertThat(this.porteVerrouillee.activableAvec(clefSerrure), is(true));
 		assertThat(this.porteVerrouillee.activableAvec(pdb), is(true));
