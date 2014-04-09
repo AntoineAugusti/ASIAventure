@@ -177,7 +177,7 @@ public class JoueurHumain extends Vivant {
 			// Itération sur chaque entité
 			for (Iterator <Objet> i = this.getPiece().getObjets().values().iterator(); i.hasNext();) {
 				Objet o = i.next();
-				chaineBuilder.append(o.getNom() + ";");
+				chaineBuilder.append("\t * " + o.getNom());
 			}
 			chaineBuilder.append("\n");
 		}
@@ -188,7 +188,7 @@ public class JoueurHumain extends Vivant {
 			// Itération sur chaque entité
 			for (Iterator <Objet> i = this.getObjets().values().iterator(); i.hasNext();) {
 				Objet o = i.next();
-				chaineBuilder.append(o.getNom() + " ; ");
+				chaineBuilder.append("\t * " + o.getNom() + "\n");
 			}
 			chaineBuilder.append("\n");
 		}
@@ -199,7 +199,7 @@ public class JoueurHumain extends Vivant {
 			// Itération sur chaque entité
 			for (Iterator <Porte> i = this.getPiece().getPortes().values().iterator(); i.hasNext();) {
 				Porte p = i.next();
-				chaineBuilder.append(p.toString());
+				chaineBuilder.append("\t * " + p.toString());
 			}
 			chaineBuilder.append("\n");
 		}

@@ -146,6 +146,6 @@ public class Porte extends ElementStructurel implements Activable {
 	}
 
 	public String toString() {
-		return "Porte " + this.getNom() + " ayant l'état " + this.getEtat() + "\n";
+		return this.getNom() + " - {" + this.getEtat() + "}\n";
 	}
 }
