@@ -18,6 +18,7 @@ import fr.insarouen.asi.prog.asiaventure.elements.objets.serrurerie.Clef;
 import fr.insarouen.asi.prog.asiaventure.elements.objets.PiedDeBiche;
 import fr.insarouen.asi.prog.asiaventure.elements.structure.Porte;
 import fr.insarouen.asi.prog.asiaventure.elements.vivants.JoueurHumain;
+import fr.insarouen.asi.prog.asiaventure.elements.vivants.Monstre;
 import fr.insarouen.asi.prog.asiaventure.elements.vivants.Vivant;
 import fr.insarouen.asi.prog.asiaventure.elements.Executable;
 import fr.insarouen.asi.prog.asiaventure.elements.Entite;
@@ -180,6 +181,9 @@ public class Simulateur {
 					case "JoueurHumain":
 						creerJoueurHumain(st);
 						break;
+					case "Monstre":
+						creerMonstre(st);
+						break;
 					case "PiedDeBiche":
 						creerPiedDeBiche(st);
 						break;
@@ -288,5 +292,20 @@ public class Simulateur {
 
 		// On crée le joueur humain
 		new JoueurHumain(nomJoueurHumain, this.monde, pointVie, pointForce, piece);
+	}
+
+	private void creerMonstre(StreamTokenizer st) throws IOException, NomDEntiteDejaUtiliseDansLeMondeException {
+
+		String nomMonstre = st.sval;
+		st.nextToken();
+		int pointVie = (int)st.nval;
+		st.nextToken();
+		int pointForce = (int)st.nval;
+		st.nextToken();
+		String nomPiece = st.sval;
+		Piece piece = (Piece)this.monde.getEntite(nomPiece);
+
+		// On crée le monstre
+		new Monstre(nomMonstre, this.monde, pointVie, pointForce, piece);
 	}
 }
