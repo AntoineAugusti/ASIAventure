@@ -15,6 +15,7 @@ import java.util.Scanner;
 import fr.insarouen.asi.prog.asiaventure.elements.structure.Piece;
 import fr.insarouen.asi.prog.asiaventure.elements.objets.serrurerie.Serrure;
 import fr.insarouen.asi.prog.asiaventure.elements.objets.serrurerie.Clef;
+import fr.insarouen.asi.prog.asiaventure.elements.objets.PiedDeBiche;
 import fr.insarouen.asi.prog.asiaventure.elements.structure.Porte;
 import fr.insarouen.asi.prog.asiaventure.elements.vivants.JoueurHumain;
 import fr.insarouen.asi.prog.asiaventure.elements.vivants.Vivant;
@@ -179,6 +180,9 @@ public class Simulateur {
 					case "JoueurHumain":
 						creerJoueurHumain(st);
 						break;
+					case "PiedDeBiche":
+						creerPiedDeBiche(st);
+						break;
 					case "ConditionDeFinVivantDansPiece":
 						creerConditionDeFinVivantDansPiece(st);
 						break;
@@ -259,6 +263,16 @@ public class Simulateur {
 
 		Clef cle = porte.getSerrure().creerClef();
 		piece.deposer(cle);
+	}
+
+	private void creerPiedDeBiche(StreamTokenizer st) throws IOException, NomDEntiteDejaUtiliseDansLeMondeException {
+
+		String nomPDB = st.sval;
+		st.nextToken();
+		String nomPieceADeposer = st.sval;
+		Piece piece = (Piece) this.monde.getEntite(nomPieceADeposer);
+
+		piece.deposer(new PiedDeBiche(nomPDB, this.monde));
 	}
 
 	private void creerJoueurHumain(StreamTokenizer st) throws IOException, NomDEntiteDejaUtiliseDansLeMondeException {
